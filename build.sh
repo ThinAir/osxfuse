@@ -171,7 +171,7 @@ function build_target_getopt
         local    sdk=""
         local    xcode=""
         local -a architectures=()
-        local    deployment_target=""
+        local    deployment_target="10.10"
         local    build_configuration=""
         local -a build_settings=()
         local -a macros=()
@@ -417,6 +417,10 @@ function build_target_make
 
     local -i root="${BUILD_TARGET_OPTION_ROOT}"
 
+    echo “target root is:”
+        echo "${BUILD_TARGET_OPTION_ROOT}"
+
+
     while [[ ${#} -gt 0 ]]
     do
         case "${1}" in
@@ -446,9 +450,12 @@ function build_target_make
 
 function build_target_codesign
 {
+    echo "checking code signing"
     if [[ -n "${BUILD_TARGET_OPTION_CODE_SIGN_IDENTITY}" ]]
     then
         /usr/bin/codesign -s "${BUILD_TARGET_OPTION_CODE_SIGN_IDENTITY}" -f "${@}" 1>&3 2>&4
+        echo "code signing"
+        echo "/usr/bin/codesign -s "${BUILD_TARGET_OPTION_CODE_SIGN_IDENTITY}" -f "${@}" 1>&3 2>&4"
     else
         return 0
     fi
@@ -638,8 +645,8 @@ function build_target_invoke
         declare     BUILD_TARGET_OPTION_BUILD_CONFIGURATION="${DEFAULT_BUILD_CONFIGURATION}"
         declare -a  BUILD_TARGET_OPTION_BUILD_SETTINGS=()
         declare -a  BUILD_TARGET_OPTION_MACROS=()
-        declare     BUILD_TARGET_OPTION_CODE_SIGN_IDENTITY=""
-        declare     BUILD_TARGET_OPTION_PRODUCT_SIGN_IDENTITY=""
+        declare     BUILD_TARGET_OPTION_CODE_SIGN_IDENTITY="Developer ID Application: ThinAir Labs, Inc. (5Z9UH7R99B)"
+        declare     BUILD_TARGET_OPTION_PRODUCT_SIGN_IDENTITY="Developer ID Installer: ThinAir Labs, Inc. (5Z9UH7R99B)"
         declare     BUILD_TARGET_OPTION_PREFIX="${DEFAULT_PREFIX}"
         declare -i  BUILD_TARGET_OPTION_ROOT=0
         declare     BUILD_TARGET_OPTION_OWNER=""
