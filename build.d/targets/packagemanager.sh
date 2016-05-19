@@ -55,8 +55,8 @@ function packagemanager_create_stage
     common_assert "[[ -n `string_escape "${stage_directory}"` ]]"
 
     /bin/mkdir -p "${stage_directory}" \
-                  "${stage_directory}/Library/Filesystems" \
-                  "${stage_directory}/Library/Frameworks" \
+                  "${stage_directory}/Library/Extensions/ThinAir/Filesystems" \
+                  "${stage_directory}/Library/Extensions/ThinAir/Frameworks" \
                   "${stage_directory}/include" \
                   "${stage_directory}/lib" \
                   "${stage_directory}/lib/pkgconfig" 1>&3 2>&4
@@ -123,7 +123,7 @@ function packagemanager_build
     build_target_invoke fsbundle build "${default_build_options[@]}"
     common_die_on_error "Failed to build file system bundle"
 
-    build_target_invoke fsbundle install --debug="${debug_directory}" -- "${stage_directory}/Library/Filesystems"
+    build_target_invoke fsbundle install --debug="${debug_directory}" -- "${stage_directory}/Library/Extensions/ThinAir/Filesystems"
     common_die_on_error "Failed to install file system bundle"
 
     # Build library
@@ -144,16 +144,16 @@ function packagemanager_build
 
     build_target_invoke framework build "${default_build_options[@]}" \
                                         --library-prefix="${stage_directory}"
-                                        -bINSTALL_PATH="${PACKAGEMANAGER_FRAMEWORK_PREFIX}/Library/Frameworks" \
+                                        -bINSTALL_PATH="${PACKAGEMANAGER_FRAMEWORK_PREFIX}/Library/Extensions/ThinAir/Frameworks" \
     common_die_on_error "Failed to build framework"
 
-    build_target_invoke framework install --debug="${debug_directory}" -- "${stage_directory}/Library/Frameworks"
+    build_target_invoke framework install --debug="${debug_directory}" -- "${stage_directory}/Library/Extensions/ThinAir/Frameworks"
     common_die_on_error "Failed to install framework"
 
     # Locate file system bundle
 
     local fsbundle_path=""
-    fsbundle_path="`osxfuse_find "${stage_directory}/Library/Filesystems"/*.fs`"
+    fsbundle_path="`osxfuse_find "${stage_directory}/Library/Extensions/ThinAir/Filesystems"/*.fs`"
     common_die_on_error "Failed to locate file system bundle"
 
     # Move debug files into file system bundle

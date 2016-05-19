@@ -110,7 +110,7 @@ function osxfuse_build_component_package
 
     common_assert "[[ -d `string_escape "${root}"` ]]" "Root directory '${root}' does not exist"
 
-    local identifier="com.github.osxfuse.pkg.${name}"
+    local identifier="com.ThinAir.osxfuse.pkg.${name}"
     local version=""
     local resources_directory="${OSXFUSE_PACKAGE_DIRECTORY}/${name}"
 
@@ -271,7 +271,7 @@ EOF
 
         function choiceConflictCheck(package) {
             switch (package) {
-                case 'com.github.osxfuse.pkg.MacFUSE':
+                case 'com.ThinAir.osxfuse.pkg.MacFUSE':
                     var receipt = my.target.receiptForIdentifier('com.google.macfuse.core');
                     return receipt != null && system.compareVersions(receipt.version, "2.3") == -1;
 
@@ -280,20 +280,20 @@ EOF
         }
 
         function isPackageInstalled() {
-            return getChoice('com.github.osxfuse.pkg.Core').packageUpgradeAction != 'clean';
+            return getChoice('com.ThinAir.osxfuse.pkg.Core').packageUpgradeAction != 'clean';
         }
 
         function isChoiceDefaultSelected(package) {
             switch (package) {
-                case 'com.github.osxfuse.pkg.Core': return true;
-                case 'com.github.osxfuse.pkg.PrefPane': return true;
+                case 'com.ThinAir.osxfuse.pkg.Core': return true;
+                case 'com.ThinAir.osxfuse.pkg.PrefPane': return true;
                 default: return false;
             }
         }
 
         function isChoiceDefaultEnabled(package) {
             switch (package) {
-                case 'com.github.osxfuse.pkg.Core': return false;
+                case 'com.ThinAir.osxfuse.pkg.Core': return false;
                 default: return true;
             }
         }
@@ -304,7 +304,7 @@ EOF
             }
 
             switch (package) {
-                case 'com.github.osxfuse.pkg.MacFUSE':
+                case 'com.ThinAir.osxfuse.pkg.MacFUSE':
                     var receipt = my.target.receiptForIdentifier('com.google.macfuse.core');
                     return receipt != null;
 

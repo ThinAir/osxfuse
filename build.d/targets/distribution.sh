@@ -40,8 +40,8 @@ function distribution_create_stage_core
     common_assert "[[ -n `string_escape "${stage_directory}"` ]]"
 
     /bin/mkdir -p "${stage_directory}" \
-                  "${stage_directory}/Library/Filesystems" \
-                  "${stage_directory}/Library/Frameworks" \
+                  "${stage_directory}/Library/Extensions/ThinAir/Filesystems" \
+                  "${stage_directory}/Library/Extensions/ThinAir/Frameworks" \
                   "${stage_directory}/usr/local/include" \
                   "${stage_directory}/usr/local/lib" \
                   "${stage_directory}/usr/local/lib/pkgconfig" 1>&3 2>&4
@@ -53,7 +53,7 @@ function distribution_create_stage_prefpane
     common_assert "[[ -n `string_escape "${stage_directory}"` ]]"
 
     /bin/mkdir -p "${stage_directory}" \
-                  "${stage_directory}/Library/PreferencePanes" 1>&3 2>&4
+                  "${stage_directory}/Library/Extensions/ThinAir/PreferencePanes" 1>&3 2>&4
 }
 
 function distribution_create_stage_macfuse
@@ -62,7 +62,7 @@ function distribution_create_stage_macfuse
     common_assert "[[ -n `string_escape "${stage_directory}"` ]]"
 
     /bin/mkdir -p "${stage_directory}" \
-                  "${stage_directory}/Library/Frameworks" \
+                  "${stage_directory}/Library/Extensions/ThinAir/Frameworks" \
                   "${stage_directory}/usr/local/include" \
                   "${stage_directory}/usr/local/lib" \
                   "${stage_directory}/usr/local/lib/pkgconfig" 1>&3 2>&4
@@ -146,13 +146,13 @@ function distribution_build
     build_target_invoke fsbundle build "${default_build_options[@]}" "${DISTRIBUTION_KEXT_TASKS[@]/#/--kext=}"
     common_die_on_error "Failed to build file system bundle"
 
-    build_target_invoke fsbundle install --debug="${debug_directory}" -- "${stage_directory_core}/Library/Filesystems"
+    build_target_invoke fsbundle install --debug="${debug_directory}" -- "${stage_directory_core}/Library/Extensions/ThinAir/Filesystems"
     common_die_on_error "Failed to install file system bundle"
 
     # Locate file system bundle
 
     local fsbundle_path=""
-    fsbundle_path="`osxfuse_find "${stage_directory_core}/Library/Filesystems"/*.fs`"
+    fsbundle_path="`osxfuse_find "${stage_directory_core}/Library/Extensions/ThinAir/Filesystems"/*.fs`"
     common_die_on_error "Failed to locate file system bundle"
 
     # Set kernel extension loader SUID bit
@@ -198,7 +198,7 @@ function distribution_build
     build_target_invoke framework build "${default_build_options[@]}" --library-prefix="${stage_directory_core}/usr/local"
     common_die_on_error "Failed to build framework"
 
-    build_target_invoke framework install --debug="${debug_directory}" -- "${stage_directory_core}/Library/Frameworks"
+    build_target_invoke framework install --debug="${debug_directory}" -- "${stage_directory_core}/Library/Extensions/ThinAir/Frameworks"
     common_die_on_error "Failed to install framework"
 
     # Build core component package
@@ -214,7 +214,7 @@ function distribution_build
     build_target_invoke prefpane build "${default_build_options[@]}"
     common_die_on_error "Failed to build preference pane"
 
-    build_target_invoke prefpane install -- "${stage_directory_prefpane}/Library/PreferencePanes"
+    build_target_invoke prefpane install -- "${stage_directory_prefpane}/Library/Extensions/ThinAir/PreferencePanes"
     common_die_on_error "Failed to install preference pane"
 
     # Build preference pane component package
@@ -250,7 +250,7 @@ function distribution_build
         build_target_invoke macfuse_framework build "${default_build_options[@]}" --library-prefix="${stage_directory_macfuse}/usr/local"
         common_die_on_error "Failed to build MacFUSE framework"
 
-        build_target_invoke macfuse_framework install --debug="${debug_directory}" -- "${stage_directory_macfuse}/Library/Frameworks"
+        build_target_invoke macfuse_framework install --debug="${debug_directory}" -- "${stage_directory_macfuse}/Library/Extensions/ThinAir/Frameworks"
         common_die_on_error "Failed to install MacFUSE framework"
 
         # Build MacFUSE component package
