@@ -79,7 +79,7 @@
 #endif
 #define OSXFUSE_BUNDLE_PREFIX           FUSE_PP_STRINGIFY(OSXFUSE_BUNDLE_PREFIX_LITERAL)
 
-#define OSXFUSE_BUNDLE_PATH             OSXFUSE_BUNDLE_PREFIX "/Library/Filesystems/osxfuse.fs"
+#define OSXFUSE_BUNDLE_PATH             OSXFUSE_BUNDLE_PREFIX "/Library/Extensions/ThinAir/Filesystems/osxfuse.fs"
 #define OSXFUSE_RESOURCES_PATH          OSXFUSE_BUNDLE_PATH "/Contents/Resources"
 #define OSXFUSE_EXTENSIONS_PATH         OSXFUSE_BUNDLE_PATH "/Contents/Extensions"
 #define OSXFUSE_KEXT_NAME               "osxfuse.kext"
